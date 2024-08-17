@@ -105,8 +105,8 @@ class _PriceScreenState extends State<PriceScreen> {
 
   @override
   void initState() {
-    super.initState();
     getData();
+    super.initState();
   }
 
   //TODO: For bonus points, create a method that loops through the cryptoList and generates a CryptoCard for each.
@@ -125,17 +125,17 @@ class _PriceScreenState extends State<PriceScreen> {
             children: [
               CryptoCard(
                 selectedCurrency: selectedCurrency,
-                value: '$value',
+                value: value,
                 cryptoCurrency: 'BTC',
               ),
               CryptoCard(
                 selectedCurrency: selectedCurrency,
-                value: '$value',
+                value: value,
                 cryptoCurrency: 'ETH',
               ),
               CryptoCard(
                 selectedCurrency: selectedCurrency,
-                value: '$value',
+                value: value,
                 cryptoCurrency: 'LTC',
               ),
             ],
