@@ -8,41 +8,6 @@ class PriceScreen extends StatefulWidget {
   _PriceScreenState createState() => _PriceScreenState();
 }
 
-class CryptoCard extends StatelessWidget {
-  final String selectedCurrency;
-  final String value;
-  final String cryptoCurrency;
-  CryptoCard({
-    required this.selectedCurrency,
-    required this.value,
-    required this.cryptoCurrency,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(18.0, 20.0, 18.0, 0),
-      child: Card(
-        color: Colors.lightBlueAccent,
-        elevation: 5.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 70.0),
-          child: Text(
-            '1 $cryptoCurrency = $value $selectedCurrency',
-            style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'AUD';
 
@@ -135,7 +100,7 @@ class _PriceScreenState extends State<PriceScreen> {
               ),
               CryptoCard(
                 selectedCurrency: selectedCurrency,
-                value: value,
+                value: '$value',
                 cryptoCurrency: 'LTC',
               ),
             ],
@@ -148,6 +113,43 @@ class _PriceScreenState extends State<PriceScreen> {
             child: Platform.isIOS ? iOSPicker() : androidDropdown(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CryptoCard extends StatelessWidget {
+  const CryptoCard({
+    required this.value,
+    required this.selectedCurrency,
+    required this.cryptoCurrency,
+  });
+
+  final String value;
+  final String selectedCurrency;
+  final String cryptoCurrency;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+      child: Card(
+        color: Colors.lightBlueAccent,
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+          child: Text(
+            '1 $cryptoCurrency = $value $selectedCurrency',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
     );
   }
