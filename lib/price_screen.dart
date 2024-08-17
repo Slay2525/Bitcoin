@@ -52,16 +52,16 @@ class _PriceScreenState extends State<PriceScreen> {
     );
   }
 
-  String value = '?';
+  Map<String, String> coinValues = {};
+  bool isWaiting = false;
 
-  //TODO 7: Figure out a way of displaying a '?' on screen while we're waiting for the price data to come back. Hint: You'll need a ternary operator.
-
-  //TODO 6: Update this method to receive a Map containing the crypto:price key value pairs. Then use that map to update the CryptoCards.
   void getData() async {
+    isWaiting = true;
     try {
-      double data = await CoinData().getCoinData(selectedCurrency);
+      var data = await CoinData().getCoinData(selectedCurrency);
+      isWaiting = false;
       setState(() {
-        value = data.toStringAsFixed(0);
+        coinValues = data;
       });
     } catch (e) {
       print(e);
@@ -70,11 +70,26 @@ class _PriceScreenState extends State<PriceScreen> {
 
   @override
   void initState() {
-    getData();
     super.initState();
+    getData();
   }
 
-  //TODO: For bonus points, create a method that loops through the cryptoList and generates a CryptoCard for each.
+  Column makeCards() {
+    List<CryptoCard> cryptoCards = [];
+    for (String crypto in cryptoList) {
+      cryptoCards.add(
+        CryptoCard(
+          cryptoCurrency: crypto,
+          selectedCurrency: selectedCurrency,
+          value: isWaiting ? '?' : coinValues[crypto].toString(),
+        ),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: cryptoCards,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,25 +101,7 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Column(
-            children: [
-              CryptoCard(
-                selectedCurrency: selectedCurrency,
-                value: value,
-                cryptoCurrency: 'BTC',
-              ),
-              CryptoCard(
-                selectedCurrency: selectedCurrency,
-                value: value,
-                cryptoCurrency: 'ETH',
-              ),
-              CryptoCard(
-                selectedCurrency: selectedCurrency,
-                value: '$value',
-                cryptoCurrency: 'LTC',
-              ),
-            ],
-          ),
+          makeCards(),
           Container(
             height: 150.0,
             alignment: Alignment.center,
