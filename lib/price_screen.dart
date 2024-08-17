@@ -10,18 +10,18 @@ class PriceScreen extends StatefulWidget {
 
 class CryptoCard extends StatelessWidget {
   final String selectedCurrency;
-  final double value;
+  final String value;
   final String cryptoCurrency;
-
-  CryptoCard(
-      {required this.selectedCurrency,
-      required this.value,
-      required this.cryptoCurrency});
+  CryptoCard({
+    required this.selectedCurrency,
+    required this.value,
+    required this.cryptoCurrency,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+      padding: EdgeInsets.fromLTRB(18.0, 20.0, 18.0, 0),
       child: Card(
         color: Colors.lightBlueAccent,
         elevation: 5.0,
@@ -29,7 +29,7 @@ class CryptoCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 70.0),
           child: Text(
             '1 $cryptoCurrency = $value $selectedCurrency',
             style: TextStyle(
@@ -121,29 +121,24 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          //TODO 1: Refactor this Padding Widget into a separate Stateless Widget called CryptoCard, so we can create 3 of them, one for each cryptocurrency.
-          //TODO 2: You'll need to able to pass the selectedCurrency, value and cryptoCurrency to the constructor of this CryptoCard Widget.
-          //TODO 3: You'll need to use a Column Widget to contain the three CryptoCards.
-          Padding(
-            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: Colors.lightBlueAccent,
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+          Column(
+            children: [
+              CryptoCard(
+                selectedCurrency: selectedCurrency,
+                value: '$value',
+                cryptoCurrency: 'BTC',
               ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-                child: Text(
-                  '1 BTC = $value $selectedCurrency',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
+              CryptoCard(
+                selectedCurrency: selectedCurrency,
+                value: '$value',
+                cryptoCurrency: 'ETH',
               ),
-            ),
+              CryptoCard(
+                selectedCurrency: selectedCurrency,
+                value: '$value',
+                cryptoCurrency: 'LTC',
+              ),
+            ],
           ),
           Container(
             height: 150.0,
